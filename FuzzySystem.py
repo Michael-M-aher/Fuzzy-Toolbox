@@ -248,9 +248,7 @@ class FuzzySystem:
 
             # evaluate the antecedent
             antec = self._not(antec)
-            antec = self._and_not(antec)
             antec = self._and(antec)
-            antec = self._or_not(antec)
             antec = self._or(antec)
 
             # add the rule strength and the consequent
@@ -342,31 +340,6 @@ class FuzzySystem:
             del antec[i]
         return antec
 
-    def _and_not(self, antec):
-        """
-        Performs the "and_not" operation on the antecedent.
-
-        Parameters:
-        -----------
-        antec: list
-            The antecedent list.
-
-        Returns:
-        --------
-        antec: list
-            The modified antecedent list.
-        """
-        ind = []
-        for i in range(0, len(antec)):
-            if isinstance(antec[i], str) and antec[i] == 'and_not':
-                antec[i] = min(antec[i - 1], 1 - antec[i + 1])
-                ind.extend((i - 1, i + 1))
-
-        # remove the evaluated values
-        for i in sorted(ind, reverse=True):
-            del antec[i]
-        return antec
-
     def _and(self, antec):
         """
         Performs the "and" operation on the antecedent.
@@ -385,31 +358,6 @@ class FuzzySystem:
         for i in range(0, len(antec)):
             if isinstance(antec[i], str) and antec[i] == 'and':
                 antec[i] = min(antec[i - 1], antec[i + 1])
-                ind.extend((i - 1, i + 1))
-
-        # remove the evaluated values
-        for i in sorted(ind, reverse=True):
-            del antec[i]
-        return antec
-
-    def _or_not(self, antec):
-        """
-        Performs the "or_not" operation on the antecedent.
-
-        Parameters:
-        -----------
-        antec: list
-            The antecedent list.
-
-        Returns:
-        --------
-        antec: list
-            The modified antecedent list.
-        """
-        ind = []
-        for i in range(0, len(antec)):
-            if isinstance(antec[i], str) and antec[i] == 'or_not':
-                antec[i] = max(antec[i - 1], 1 - antec[i + 1])
                 ind.extend((i - 1, i + 1))
 
         # remove the evaluated values

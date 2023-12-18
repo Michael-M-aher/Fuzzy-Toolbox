@@ -99,7 +99,14 @@ def main():
                                 i = 2
                             while i < len(antecedent):
                                 if antecedent[i] in operators and len(antecedent) > i+2:
-                                    antecedent_operations.append(antecedent[i])
+                                    if(antecedent[i] == 'and_not'):
+                                        antecedent_operations.append('and')
+                                        antecedent_operations.append('not')
+                                    elif(antecedent[i] == 'or_not'):
+                                        antecedent_operations.append('or')
+                                        antecedent_operations.append('not')
+                                    else:
+                                        antecedent_operations.append(antecedent[i])
                                     if antecedent[i+2] == 'not':
                                         if(len(antecedent) < i+4):
                                             raise ValueError("Invalid antecedent format.")
